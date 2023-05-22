@@ -1,6 +1,8 @@
 import java.util.*;
+import java.util.function.Predicate;
+
 public class Main {
-        public static void main(String[] args) {
+        public static <mylibrary> void main(String[] args) {
             // Create books
             Book book1 = new Book("My first book title", "Author 1", 2023, 57, "Technology");
             Book book2 = new Book("My second book title", "Author 2", 2023, 58, "Anime");
@@ -12,7 +14,7 @@ public class Main {
             // Create library
             Library mylibrary = new Library();
 
-            // Add books to the library
+            //Add a book to the library.
             mylibrary.addBook(book1);
             mylibrary.addBook(book2);
             mylibrary.addBook(book3);
@@ -20,22 +22,21 @@ public class Main {
             mylibrary.addBook(book5);
             mylibrary.addBook(book6);
 
-            //remove books from the library
+            //Remove a book from the library by title.
             mylibrary.removeBook(String.valueOf(book6));
 
 
-            // Find books by publication year
+            //Find all books published in a specific year.
             List<Book> booksByYear = mylibrary.findBooksByPublicationYear(2023);
             System.out.println("Books published in 2023:");
             booksByYear.forEach(book -> System.out.println(book.getTitle()));
 
-
-            // Find book with the most pages
+            //Find the book with the most pages.
             Book bookWithMostPages = mylibrary.findBookWithMostPages();
             System.out.println("Book with the most pages:");
             System.out.println(bookWithMostPages.getTitle());
 
-            // Find books by author
+            //Find all books by a specific author.
             List<Book> booksByAuthor = mylibrary.findBooksByAuthor("Author 1");
             System.out.println("Books by Author 1:");
             booksByAuthor.forEach(book -> System.out.println(book.getTitle()));
