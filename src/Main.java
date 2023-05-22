@@ -1,29 +1,33 @@
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 public class Main {
         public static <mylibrary> void main(String[] args) {
             // Create books
-            Book book1 = new Book("My first book title", "Author 1", 2023, 57, "Technology");
-            Book book2 = new Book("My second book title", "Author 2", 2023, 58, "Anime");
-            Book book3 = new Book("My third book title", "Author 3", 2023, 57, "Technology");
-            Book book4 = new Book("My fourth book title", "Author 4", 2021, 67, "Romance");
-            Book book5 = new Book("My fifth book title", "Author 5", 2020, 47, "Technology");
-            Book book6 = new Book("My six book title", "Author 6", 2023, 37, "Non-fiction");
+            Supplier<Book> book1 = () -> new Book("My first book title", "Author 1", 2023, 57, "Technology");
+            Supplier<Book> book2 = () -> new Book("My second book title", "Author 2", 2023, 58, "Anime");
+            Supplier<Book> book3 = () -> new Book("My third book title", "Author 3", 2023, 57, "Technology");
+            Supplier<Book> book4 = () -> new Book("My fourth book title", "Author 4", 2021, 67, "Romance");
+            Supplier<Book> book5 = () -> new Book("My fifth book title", "Author 5", 2020, 47, "Technology");
+            Supplier<Book> book6 = () -> new Book("My six book title", "Author 6", 2023, 37, "Non-fiction");
 
             // Create library
             Library mylibrary = new Library();
 
             //Add a book to the library.
-            mylibrary.addBook(book1);
-            mylibrary.addBook(book2);
-            mylibrary.addBook(book3);
-            mylibrary.addBook(book4);
-            mylibrary.addBook(book5);
-            mylibrary.addBook(book6);
+            Consumer<Book> addBook = mylibrary ::addBook;
+            addBook.accept(book1.get());
+            addBook.accept(book2.get());
+            addBook.accept(book3.get());
+            addBook.accept(book4.get());
+            addBook.accept(book5.get());
+            addBook.accept(book6.get());
 
             //Remove a book from the library by title.
-            mylibrary.removeBook(String.valueOf(book6));
+            Consumer<String> removeBook = mylibrary ::removeBook;
+            removeBook.accept("My six book title");
 
 
             //Find all books published in a specific year.
@@ -62,12 +66,13 @@ public class Main {
             User user2 = new User("User 2", "002");
 
             // Loan books to users
-            user1.loanBook(book1);
-            user1.loanBook(book4);
-            user2.loanBook(book5);
+            Consumer<Book> user1CheckedOut = user1::loanBook;
+            user1CheckedOut.accept(book3.get());
+            user1CheckedOut.accept(book6.get());
 
             // Return a book
-            user1.returnBook(book4);
+            Consumer<Book> user1ReturnBook = user1::returnBook;
+            user1ReturnBook.accept(book3.get());
 
             // Calculate late fees for a user
             double lateFees = user2.calculateLateFees();
